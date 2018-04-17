@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<!-- Head tag -->
+<head>
+	<!--Mathjax-->
+	<script type="text/x-mathjax-config">
+	MathJax.Hub.Config({
+	    tex2jax: {
+	        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+	        processEscapes: true,
+	        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+	    }
+	});	
+	MathJax.Hub.Queue(function() {
+	    var all = MathJax.Hub.getAllJax(), i;
+	    for(i=0; i < all.length; i += 1) {
+	        all[i].SourceElement().parentNode.className += ' has-jax';                 
+	    }       
+	});
+	</script>
+	<script type="text/javascript" async
+		src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+	</script>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!--Description-->
+    
+        <meta name="description" content="割点，桥(割边)
+割点：存在原本连通的无向图中，删去后会导致该无向图不连通的点。    
+割边：同上的边。
+纠正：
+​    割点：去掉后使图的连通分支数增加的点.(注意是去掉整个点，而不是点周围的边)
+​    割边：图G的边e是割边当且仅当e不在任何一个圈上
+
+$Tarjan$算法，$dfs$原">
+    
+
+    <!--Author-->
+    
+        <meta name="author" content="Songtoy">
+    
+
+    <!--Open Graph Title-->
+    
+        <meta property="og:title" content="基础图论"/>
+    
+
+    <!--Open Graph Description-->
+    
+
+    <!--Open Graph Site Name-->
+    <meta property="og:site_name" content="Song &amp; Toy"/>
+
+    <!--Type page-->
+    
+        <meta property="og:type" content="article" />
+    
+
+    <!--Page Cover-->
+    
+
+        <meta name="twitter:card" content="summary" />
+    
+
+    <!-- Title -->
+    
+    <title>基础图论 - Song &amp; Toy</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/style.css">
+
+    <!-- Custom Fonts -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Gallery -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.css" type="text/css" rel="stylesheet" />
+
+    <!-- Google Analytics -->
+    
+
+
+    <!-- favicon -->
+    
+	
+</head>
+
+
+<body>
+
+    <!-- Menu -->
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">HOME</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                
+                    <li>
+                        <a href="/">
+                            
+                                Home
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/archives">
+                            
+                                Archives
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/option/author">
+                            
+                                Person
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/tags">
+                            
+                                Tags
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="https://github.com/songtoy/songtoy.github.io/">
+                            
+                                <i class="fa fa-github fa-stack-2x"></i>
+                            
+                        </a>
+                    </li>
+                
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+    <!-- Main Content -->
+    <!-- Page Header -->
+<!-- Set your background image for this header in your post front-matter: cover -->
+
+<header class="intro-header" style="background-image: url('http://www.codeblocq.com/assets/projects/hexo-theme-clean-blog/img/home-bg.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <h1>基础图论</h1>
+                    
+                    <span class="meta">
+                        <!-- Date and Author -->
+                        
+                            Posted by Songtoy on
+                        
+                        
+                            2018-04-17
+                        
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Tags and categories -->
+           
+                <div class="col-lg-4 col-lg-offset-2 col-md-5 col-md-offset-1 post-tags">
+                    
+                        
+
+
+<a href="/tags/Graph-Theory/">#Graph Theory</a>
+
+
+                    
+                </div>
+                <div class="col-lg-4 col-md-5 post-categories">
+                    
+                </div>
+            
+
+            <!-- Gallery -->
+            
+
+            <!-- Post Main Content -->
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <h2 id="割点，桥-割边"><a href="#割点，桥-割边" class="headerlink" title="割点，桥(割边)"></a>割点，桥(割边)</h2><blockquote>
+<p>割点：存在原本连通的无向图中，删去后会导致该无向图不连通的点。    </p>
+<p>割边：同上的边。</p>
+<p>纠正：</p>
+<p>​    割点：去掉后使图的连通分支数增加的点.(注意是去掉整个点，而不是点周围的边)</p>
+<p>​    割边：图G的边e是割边当且仅当e不在任何一个圈上</p>
+</blockquote>
+<p>$Tarjan$算法，$dfs$原图，生成搜索树，原图可表示为搜索树和一些边集，我们需要知道当前点通过非搜索树边能到达的$id$最小的点$low(u)$，此时需要维护 $u$ 掌管的子树能到达的最先遍历到的点.</p>
+<p><img src="/image/割点.png" alt="割点"></p>
+<p>考虑两种情况：</p>
+<ul>
+<li>1）u为根节点，则此时u为割点当且仅当u有两棵及以上搜索子树</li>
+<li>2）u不是根节点，则此时一旦u存在任何一个儿子v使得$low(v)&gt;=id[u]$，则u为割点</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">dfs</span><span class="params">(<span class="keyword">int</span> u,<span class="keyword">int</span> fa,<span class="keyword">int</span> &amp;Ind)</span></span>&#123;</div><div class="line">    <span class="keyword">int</span> Son=<span class="number">0</span>;</div><div class="line">    low[u]=id[u]=++Ind;</div><div class="line">    vis[u]=<span class="literal">true</span>;</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=head[u];~i;i=nxt[i])&#123;</div><div class="line">        <span class="keyword">if</span>(to[i]==fa)<span class="keyword">continue</span>;</div><div class="line">        <span class="keyword">if</span>(vis[to[i]])&#123;</div><div class="line">            low[u]=min(low[u],id[to[i]]);</div><div class="line">        &#125;<span class="keyword">else</span>&#123;</div><div class="line">            dfs(to[i],u,Ind);</div><div class="line">            <span class="keyword">if</span>(low[to[i]]&gt;=id[u])mark[u]=<span class="literal">true</span>;<span class="comment">//该点为割点</span></div><div class="line">            <span class="keyword">if</span>(low[to[i]]&gt;id[u])ans[i]=<span class="literal">true</span>;<span class="comment">//该边为割边</span></div><div class="line">            low[u]=min(low[u],low[to[i]]);</div><div class="line">            ++Son;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span>(id[u]==<span class="number">1</span>&amp;&amp;Son&lt;=<span class="number">1</span>)mark[u]=<span class="literal">false</span>;<span class="comment">//如果是根节点的话考虑有多少个儿子</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="强连通"><a href="#强连通" class="headerlink" title="强连通"></a>强连通</h2><blockquote>
+<p>强连通分量：在有向图中一个子图，其内部任意两点均可相互到达，并使该子图最大</p>
+</blockquote>
+<p><del>(这里撇去以前的$kosaraju$写法)</del></p>
+<p>$Tarjan$ ：按照 $dfs$ 搜索树，如果当前节点的子树中没有任何边指向子树外的内容，则我们能确保当前的子树内的强连通情况与子树外完全没有关系，(根本不能相互到达)，那么我们还剩余在栈中的所有元素就是u所在的强连通分量的所有元素。换句话说，当前栈里剩余的元素的$low(v)$一定在$v$的前面，我们只需要递归回到那个节点的时候把所有的元素收集起来就好. $O(n+m)$</p>
+<p>注意点:</p>
+<p>由于是有向图，因此当前搜索到的子图有可能有边指向以前的已经搜过的点，例如下图中我们在红色点考虑蓝色点，蓝色点的$dfn$ 必然会导致红色点的$low$比右边任何点的$dfn$都小，这将导致右边的强连通分量无法被求出来.</p>
+<p><strong> 因此，要确保当前的搜索过程一定在还未确定强连通分量的子图中进行，需要区分已经处理的点和还未处理的点，我们只需要考虑栈中的元素即可，(因为假如有别的子图还未被遍历过，这里的点一定不可能在当前的子图的强连通分量中，不需要考虑)</strong></p>
+<p><img src="/image/Tarjan强连通.png" alt="tarjan强连通"></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">dfs</span><span class="params">(<span class="keyword">int</span> u,<span class="keyword">int</span> &amp;Ind,<span class="keyword">int</span> &amp;k)</span></span>&#123;</div><div class="line">    vis[u]=<span class="literal">true</span>;<span class="comment">//in stack</span></div><div class="line">    low[u]=dfn[u]=++Ind;</div><div class="line">    stk[++top]=u;</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;G[u].size();i++)&#123;</div><div class="line">        <span class="keyword">if</span>(vis[G[u][i]]&amp;&amp;dfn[G[u][i]])&#123;<span class="comment">//</span></div><div class="line">        	low[u]=min(low[u],dfn[G[u][i]]);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(!dfn[G[u][i]])&#123;</div><div class="line">            dfs(G[u][i],ind,k);</div><div class="line">            low[u]=min(low[u],low[G[u][i]]);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span>(low[u]==dfn[u])&#123;</div><div class="line">    	++k;<span class="comment">//scc_id_top</span></div><div class="line">    	<span class="keyword">while</span>(top)&#123;</div><div class="line">    		<span class="keyword">int</span> v=stk[top--];</div><div class="line">    		sccid[v]=k;</div><div class="line">    		vis[v]=<span class="literal">false</span>;</div><div class="line">            <span class="keyword">if</span>(Mi[k]==<span class="number">-1</span>||Mi[k]&gt;val[v])Mi[k]=val[v];</div><div class="line">            Mx[k]=max(Mx[k],val[v]);</div><div class="line">            <span class="keyword">if</span>(v==u)<span class="keyword">break</span>;</div><div class="line">        &#125;</div><div class="line">        dp[k]=Mx[k]-Mi[k];</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h1 id="Ps-Lowest-Common-Ancester"><a href="#Ps-Lowest-Common-Ancester" class="headerlink" title="Ps : Lowest Common Ancester"></a>Ps : Lowest Common Ancester</h1><p>运用RMQ求解的Lca,注意：预处理复杂度$O(nlogn)$,求解复杂度$O(1)$</p>
+<h4 id="引入-欧拉序列"><a href="#引入-欧拉序列" class="headerlink" title="引入:欧拉序列"></a>引入:欧拉序列</h4><p>与$dfs$序不同的是，$dfs$序表示的是每个点被加入栈的顺序)，但是欧拉序列表示的是栈顶中的元素的序列，$dfs$序中一个$[st[u],ed[u]]$只能表示其子树内的元素并且长度恰等于子树内的元素的个数，然而欧拉序列中$[st[u],ed[u]]$不仅仅是表示子树内的元素，即，($st[u]$表示$u$初次出现的位置，$ed[u]$表示$u$最后一次出现的位置)，我们能确保$[st[u],ed[u]]$中的元素只可能是$u$的子孙和$u$本身，但是同时还有一个$dfs$遍历的顺序.</p>
+<p>$Function\;Dfs(u,\&amp;tot)\{$</p>
+<p>​    $euler.add(u)$</p>
+<p>​    $st[u]=++tot$</p>
+<p>​    $for\;v\;in\;\{son[u]\}\;do$</p>
+<p>​        $Dfs(v,tot)$</p>
+<p>​        $euler.add(u)$</p>
+<p>​    $done$</p>
+<p>$\}$</p>
+<p>通过这段伪代码可以知道，欧拉序列实际上就是每条边遍历的顺序及方向，(任意相邻位置上的两点均为某边的两端).</p>
+<p>这样一来，$lca(u,v)$就是在$[ed[u],st[v]]$中$dep$值最小的点，那么我们只需要维护一个区间最小值即可，可以用$ST$表解决，然后查询的时候，非常漂亮的一步就是我们不再使用倍增的写法$O(logn)$，直接$O(1)$判断，由于是区间最小值，对于区间$[L,R]$，只需要求出$[L,x]$和$[y,R]$$(x&gt;=y)$的最小值即可，那么我们只需要求出最小的长度使得其两倍能覆盖$[L,R]$即可，i.e:$2^{len}*2&gt;=R-L+1$，这里的$len$可以预处理出来:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">2</span>;i&lt;=tot;++i)&#123;<span class="comment">//Log[1]=0</span></div><div class="line">  	Log[i]=Log[i<span class="number">-1</span>];</div><div class="line"> 	<span class="keyword">if</span>(i==(i&amp;-i))++Log[i];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>$ST$表的预处理部分：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=tot;++i)mi[<span class="number">0</span>][i]=eu[i];</div><div class="line"><span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;S;++j)&#123;</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=tot;++i)&#123;</div><div class="line">        mi[j][i]=mi[j<span class="number">-1</span>][i];</div><div class="line">        <span class="keyword">if</span>(i+(<span class="number">1</span>&lt;&lt;(j<span class="number">-1</span>))&lt;=tot&amp;&amp;dep[mi[j][i]]&gt;dep[mi[j<span class="number">-1</span>][i+(<span class="number">1</span>&lt;&lt;(j<span class="number">-1</span>))]])&#123;</div><div class="line">            mi[j][i]=mi[j<span class="number">-1</span>][i+(<span class="number">1</span>&lt;&lt;(j<span class="number">-1</span>))];</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>查询的时候还有一个小技巧,由于$[st[u],ed[u]]$中只有$u$的子树和$u$本身，那么其中$dep$最小的一定是$u$，那么其实只要查询$[st[u],st[v]]$中的最小深度元素，对答案不构成影响。</p>
+<h2 id="虚树"><a href="#虚树" class="headerlink" title="虚树"></a>虚树</h2><p>在处理一些问题的时候，有时候往往要将一部分满足条件的点提出来单独处理，但是这个时候如果仍旧$O(n)$扫描是不明智的，考虑能否造出一颗虚树</p>
+<blockquote>
+<p>主要解决树上每次询问k个关键点，满足∑k是线性的问题</p>
+</blockquote>
+<h4 id="Defination"><a href="#Defination" class="headerlink" title="Defination"></a>Defination</h4><p>所谓虚树，即将所需的点都提取出来，并用”虚边”将其连接起来，同时保留了所有点的相对位置(如LCA，虚边的长度)，即其中对答案有影响的信息.</p>
+<h3 id="Construction"><a href="#Construction" class="headerlink" title="Construction"></a>Construction</h3><p>将所有的点按照$Dfs$序排序，然后将任意相邻两点的$Lca$加到集合中，整合一下即可得到一颗虚树所需的点集.</p>
+<ul>
+<li><strong>i.e</strong>：将所有点按照$dfn$排序后，{相邻两点Lca}={任意两点Lca}</li>
+<li><strong><em>Proof:</em></strong></li>
+</ul>
+
+
+                
+            </div>
+
+            <!-- Comments -->
+            
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    
+
+
+                </div>
+            
+        </div>
+    </div>
+</article>
+
+    <!-- Footer -->
+    <hr />
+
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+
+                    
+
+                    
+                        <li>
+                            <a href="https://github.com/songtoy/songtoy.github.io/" target="_blank">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                    
+
+                    
+
+                    
+
+                    
+                </ul>
+                <p class="copyright text-muted">&copy; 2018 Songtoy<br></p>
+                <p class="copyright text-muted">Original Theme <a target="_blank" href="http://startbootstrap.com/template-overviews/clean-blog/">Clean Blog</a> from <a href="http://startbootstrap.com/" target="_blank">Start Bootstrap</a></p>
+                <p class="copyright text-muted">Adapted for <a target="_blank" href="https://hexo.io/">Hexo</a> by <a href="http://www.codeblocq.com/" target="_blank">Jonathan Klughertz</a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+    <!-- After footer scripts -->
+    
+<!-- jQuery -->
+<script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+
+<!-- Bootstrap -->
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+<!-- Gallery -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
+
+<!-- Disqus Comments -->
+
+
+
+</body>
+
+</html>

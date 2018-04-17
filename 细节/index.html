@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<!-- Head tag -->
+<head>
+	<!--Mathjax-->
+	<script type="text/x-mathjax-config">
+	MathJax.Hub.Config({
+	    tex2jax: {
+	        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+	        processEscapes: true,
+	        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+	    }
+	});	
+	MathJax.Hub.Queue(function() {
+	    var all = MathJax.Hub.getAllJax(), i;
+	    for(i=0; i < all.length; i += 1) {
+	        all[i].SourceElement().parentNode.className += ' has-jax';                 
+	    }       
+	});
+	</script>
+	<script type="text/javascript" async
+		src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+	</script>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!--Description-->
+    
+        <meta name="description" content="注意有取模时要注意模数的大小，有可能两倍会爆int导致答案错误. 同时答案之间如果是加减可以if (ans &amp;gt;= P) ans-=P; 否则要 ans=1LL*ans*X%P
+
+如果读入数据里有负数不能直接用读入挂，要判负号.
+
+使用位运算时要注意可能会溢出(如$1&amp;lt;&amp;gt;35$ 均会">
+    
+
+    <!--Author-->
+    
+        <meta name="author" content="Songtoy">
+    
+
+    <!--Open Graph Title-->
+    
+        <meta property="og:title" content="细节"/>
+    
+
+    <!--Open Graph Description-->
+    
+
+    <!--Open Graph Site Name-->
+    <meta property="og:site_name" content="Song &amp; Toy"/>
+
+    <!--Type page-->
+    
+        <meta property="og:type" content="article" />
+    
+
+    <!--Page Cover-->
+    
+
+        <meta name="twitter:card" content="summary" />
+    
+
+    <!-- Title -->
+    
+    <title>细节 - Song &amp; Toy</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/style.css">
+
+    <!-- Custom Fonts -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Gallery -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.css" type="text/css" rel="stylesheet" />
+
+    <!-- Google Analytics -->
+    
+
+
+    <!-- favicon -->
+    
+	
+</head>
+
+
+<body>
+
+    <!-- Menu -->
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">HOME</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                
+                    <li>
+                        <a href="/">
+                            
+                                Home
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/archives">
+                            
+                                Archives
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/option/author">
+                            
+                                Person
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/tags">
+                            
+                                Tags
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="https://github.com/songtoy/songtoy.github.io/">
+                            
+                                <i class="fa fa-github fa-stack-2x"></i>
+                            
+                        </a>
+                    </li>
+                
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+    <!-- Main Content -->
+    <!-- Page Header -->
+<!-- Set your background image for this header in your post front-matter: cover -->
+
+<header class="intro-header" style="background-image: url('http://www.codeblocq.com/assets/projects/hexo-theme-clean-blog/img/home-bg.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <h1>细节</h1>
+                    
+                    <span class="meta">
+                        <!-- Date and Author -->
+                        
+                            Posted by Songtoy on
+                        
+                        
+                            2018-04-17
+                        
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Tags and categories -->
+           
+                <div class="col-lg-4 col-lg-offset-2 col-md-5 col-md-offset-1 post-tags">
+                    
+                        
+
+
+<a href="/tags/Personal/">#Personal</a>
+
+
+                    
+                </div>
+                <div class="col-lg-4 col-md-5 post-categories">
+                    
+                </div>
+            
+
+            <!-- Gallery -->
+            
+
+            <!-- Post Main Content -->
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ol>
+<li><p>注意有取模时要注意模数的大小，有可能两倍会爆int导致答案错误. 同时答案之间如果是加减可以<code>if (ans &gt;= P) ans-=P;</code> 否则要 <code>ans=1LL*ans*X%P</code></p>
+</li>
+<li><p>如果读入数据里有负数不能直接用读入挂，要判负号.</p>
+</li>
+<li><p>使用位运算时要注意可能会溢出(如$1&lt;<35$和$1>&gt;35$ 均会溢出).(实例可见 Topcoder SRM 613 Div2 Level three)</35$和$1></p>
+</li>
+<li><p>三目运算符（？：）的优先级很低，甚至低于+、-，尽量少用或加括号.</p>
+</li>
+<li><p>部分位运算的优先级较高，如！、~，相当高，然后是*、/，再是+、-，最后是&gt;&gt;、&lt;&lt;，更低的有&amp;、^、|.</p>
+</li>
+<li><p>涉及到LCA的问题要注意可能在同一个子树内计算.(CF715E)</p>
+</li>
+<li><p>结构体排序的operator一定要这样打:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">bool</span> <span class="keyword">operator</span> &lt;(<span class="keyword">const</span> node &amp;A)<span class="keyword">const</span>&#123;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>​注意两个const不能掉.</p>
+</li>
+<li><p>处理割点时注意根节点的处理，当且仅当获得的搜索树中根节点的儿子不止一个时才算上.</p>
+</li>
+<li><p>文件名、longlong、mod</p>
+</li>
+<li><p>想题目要由浅入深，从暴力开始想,</p>
+<blockquote>
+<p>枚举往往最容易被忽略。–XiaoC</p>
+<p>其实这话不对，暴力还是经常被人想到的。只是应该选小的数枚举这一点经常被人忘记。</p>
+</blockquote>
+</li>
+<li><p>有时候满足单调性的问题可以构造前缀和(苹果落地COCI2014/2015 Contest#5 E)</p>
+</li>
+<li><p>枚举一个数的非空子集</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span>(<span class="keyword">int</span> j=num;j;j=(j<span class="number">-1</span>)&amp;num)...</div></pre></td></tr></table></figure>
+</li>
+<li><p>对于dp过程中尤其是区间型的，一定要注意边界处理，例如调用到了 n+1的dp值之类的（eg：CodeM初赛A轮B题）</p>
+</li>
+<li><p>选择排序并不稳定，反例:5,5,2</p>
+</li>
+<li><p>二进制优化：快速幂，倍增，矩阵</p>
+</li>
+<li><p>对于树上两点间路径的信息维护需要注意的点是：如果可以支持前缀和处理(如加减)就用前缀和处理，否则(如取min，取max等)就用区间处理（倍增）。eg:$dis(i,j)=dis[i]+dis[j]-2*dis[lca(i,j)]$ </p>
+</li>
+<li><p>数组版的正向表需要注意的是内存，往往需要开两倍</p>
+</li>
+<li><p>set/multiset 删除操作中一定要用迭代器删，千万不能直接删除值，特别是multiset，会把所有重复元素都删掉(见圣杯战争[USACO 2017 Open Platinum]，由multiset引发的惨案)</p>
+</li>
+<li><p>最小费用流和最小费用最大流的区别：最小费用流的目标是从S流到T使得费用最小，而最小费用最大流的目标是从S流到T在流量最大的前提下使费用最小。实现方面：前者<code>return dis[t]&lt;=0</code>后者<code>return dis[t]!=INF</code></p>
+</li>
+<li><p>树状数组是可以求后缀和的，as long as 将update中的<code>x+=lowbit(x)</code>改为<code>x-=lowbit(x)</code>，查询中的<code>x-=lowbit(x)</code>改为<code>x+=lowbit(x)</code>（可以看成是反向建树）</p>
+</li>
+<li><p>树上dfs的过程中dep的两种写法，<code>dep[v]=dep[u]+1</code>或<code>dep[u]=dep[fa[u]]+1</code>，两者都暗藏杀机：前者若由于根节点的dep不会被更新(清空)，在多次换根的dfs中会导致错误；而后者若由于根节点的父亲未被清空，在多次换根的dfs中也会导致错误.</p>
+</li>
+<li><p>图上问题的简化版=树上问题，树上问题的简化版=链上问题.</p>
+</li>
+<li><p>遍历一张图，无论是$dfs$还是$bfs$都是$O(m)$，即边数.</p>
+</li>
+<li><p>状压dp里需要注意范围，比如对于一个$1\sim N$ 的排列状压，$dp[i][mask\;xor\;2^{j-1}]$，否则数组需要开两倍.</p>
+<p>很重要，要么$2^n$对应$2^{A[i]-1}$，要么$2^{n+1}$对应$2^{A[i]}$</p>
+</li>
+<li><p>遇到结构体嵌套的情况时(尽量避免这种情况)，子结构体的函数是不能调用上一层结构体的变量的.</p>
+</li>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">只有一类数据成员可以在类中初始化：静态整型成员常量（整型并不只有int，char等也是）</div></pre></td></tr></table></figure>
+<p>换句话说，如果在一个结构体里面，就算用<code>static const double eps=1e-9;</code>也会编译错误.</p>
+<hr>
+<p>​</p>
+<ul>
+<li>比赛前一定要把Warning开起来(-Wall)！</li>
+<li>进入一道题的情境的最好办法是模拟小数据</li>
+<li>永远不要忘记贪心，贪心是个好朋友</li>
+<li>一定要再最后测一遍文件输入输出，并注意用fc，因为可能有鬼畜题要求输出只在一行(见某场比赛的爆零血案)</li>
+<li>想题目需要由浅入深，先从暴力着手</li>
+<li>double 在做加法和乘法的时候误差会比较小，但是做减法和除法时误差会异常大，因此要尽量避免减法和除法</li>
+<li>涉及到double问题其实可以考虑枚举答案或其中一个变量，即使是非整数情况下也可以，一般会用到eps，可以考虑推出该变量的精度范围，如果范围可行那么就可以采用暴力枚举的形式(每次加上一个很小的值，或者直接转化成整形枚举)</li>
+<li>注意使用Lucas定理的时候，有可能$n\lt m$，则$\binom nm=0$，但是要注意如果采用$p$进制处理的话，每次要选取两者长度中的较大值为准</li>
+<li>​慎用<code>static</code> ,特别是递归调用的函数中，一不小心就挂了！</li>
+<li>负数判断奇偶性时不能用<code>x&amp;1</code>，因为负数的补码不等于原码，举个例子：<code>(-1)&amp;1</code>的结果是0</li>
+<li>使用树状数组时还是传入上界比较好，否则 容易出错，思维定式导致<code>while(x&lt;M)C[x]+=v,x+=x&amp;-x;</code>，但是如果$M$并不是树状数组的范围，要么可能会越界，要么可能会WA(没更新到)；因此，最好的写法还是<code>while(x&lt;=n)C[x]+=v,x+=x&amp;-x;</code></li>
+</ul>
+</li>
+<li><p>修改和查询完全独立的线段树可以用分治替换；(大大减少复杂度)</p>
+</li>
+<li><p>棋盘图网络流前先黑白染色</p>
+</li>
+<li><p>无论什么类型的题目(甚至是通信题、交互题)，能对拍(造数据测试)总是好的，就算是自带的assert验证一个猜想也好；</p>
+</li>
+<li><p>内存什么的，说爆就爆了，还是不能小觑！特别是10^6级别的数据，随便开几个线性的，就超内存了；</p>
+</li>
+<li><p>所有特殊要求的最短路径都可以在最短路径图(DAG)上完成；比如求字典序最小的最短路径；</p>
+</li>
+<li><p>遇到非常大数的比较时，取对数是一个非常有用的办法；</p>
+</li>
+</ol>
+
+
+                
+            </div>
+
+            <!-- Comments -->
+            
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    
+
+
+                </div>
+            
+        </div>
+    </div>
+</article>
+
+    <!-- Footer -->
+    <hr />
+
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+
+                    
+
+                    
+                        <li>
+                            <a href="https://github.com/songtoy/songtoy.github.io/" target="_blank">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                    
+
+                    
+
+                    
+
+                    
+                </ul>
+                <p class="copyright text-muted">&copy; 2018 Songtoy<br></p>
+                <p class="copyright text-muted">Original Theme <a target="_blank" href="http://startbootstrap.com/template-overviews/clean-blog/">Clean Blog</a> from <a href="http://startbootstrap.com/" target="_blank">Start Bootstrap</a></p>
+                <p class="copyright text-muted">Adapted for <a target="_blank" href="https://hexo.io/">Hexo</a> by <a href="http://www.codeblocq.com/" target="_blank">Jonathan Klughertz</a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+    <!-- After footer scripts -->
+    
+<!-- jQuery -->
+<script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+
+<!-- Bootstrap -->
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+<!-- Gallery -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
+
+<!-- Disqus Comments -->
+
+
+
+</body>
+
+</html>

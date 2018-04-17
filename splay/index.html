@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<!-- Head tag -->
+<head>
+	<!--Mathjax-->
+	<script type="text/x-mathjax-config">
+	MathJax.Hub.Config({
+	    tex2jax: {
+	        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+	        processEscapes: true,
+	        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+	    }
+	});	
+	MathJax.Hub.Queue(function() {
+	    var all = MathJax.Hub.getAllJax(), i;
+	    for(i=0; i < all.length; i += 1) {
+	        all[i].SourceElement().parentNode.className += ' has-jax';                 
+	    }       
+	});
+	</script>
+	<script type="text/javascript" async
+		src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+	</script>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!--Description-->
+    
+        <meta name="description" content="伸展树($Splay$) ，一个很玄学的数据结构，据说拉伸拉着拉着就平衡了，均摊复杂度为$O(log_2n)$ ，关键在于重构、自调节。注意到关键在于$Splay()$  部分，包含了$Rotate()$ ，剩下的部分由题目而定.
+Splay对于三种情况，
+
+$u$ 的父亲为根节点，这样进行一遍单旋">
+    
+
+    <!--Author-->
+    
+        <meta name="author" content="Songtoy">
+    
+
+    <!--Open Graph Title-->
+    
+        <meta property="og:title" content="伸展树学习笔记"/>
+    
+
+    <!--Open Graph Description-->
+    
+
+    <!--Open Graph Site Name-->
+    <meta property="og:site_name" content="Song &amp; Toy"/>
+
+    <!--Type page-->
+    
+        <meta property="og:type" content="article" />
+    
+
+    <!--Page Cover-->
+    
+
+        <meta name="twitter:card" content="summary" />
+    
+
+    <!-- Title -->
+    
+    <title>伸展树学习笔记 - Song &amp; Toy</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/style.css">
+
+    <!-- Custom Fonts -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Gallery -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.css" type="text/css" rel="stylesheet" />
+
+    <!-- Google Analytics -->
+    
+
+
+    <!-- favicon -->
+    
+	
+</head>
+
+
+<body>
+
+    <!-- Menu -->
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">HOME</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                
+                    <li>
+                        <a href="/">
+                            
+                                Home
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/archives">
+                            
+                                Archives
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/option/author">
+                            
+                                Person
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/tags">
+                            
+                                Tags
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="https://github.com/songtoy/songtoy.github.io/">
+                            
+                                <i class="fa fa-github fa-stack-2x"></i>
+                            
+                        </a>
+                    </li>
+                
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+    <!-- Main Content -->
+    <!-- Page Header -->
+<!-- Set your background image for this header in your post front-matter: cover -->
+
+<header class="intro-header" style="background-image: url('http://www.codeblocq.com/assets/projects/hexo-theme-clean-blog/img/home-bg.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <h1>伸展树学习笔记</h1>
+                    
+                    <span class="meta">
+                        <!-- Date and Author -->
+                        
+                            Posted by Songtoy on
+                        
+                        
+                            2018-04-17
+                        
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Tags and categories -->
+           
+                <div class="col-lg-4 col-lg-offset-2 col-md-5 col-md-offset-1 post-tags">
+                    
+                        
+
+
+<a href="/tags/Splay/">#Splay</a> <a href="/tags/Data-Structure/">#Data Structure</a>
+
+
+                    
+                </div>
+                <div class="col-lg-4 col-md-5 post-categories">
+                    
+                </div>
+            
+
+            <!-- Gallery -->
+            
+
+            <!-- Post Main Content -->
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <p>伸展树($Splay$) ，一个很玄学的数据结构，据说拉伸拉着拉着就平衡了，均摊复杂度为$O(log_2n)$ ，关键在于重构、自调节。注意到关键在于$Splay()$  部分，包含了$Rotate()$ ，剩下的部分由题目而定.</p>
+<h2 id="Splay"><a href="#Splay" class="headerlink" title="Splay"></a>Splay</h2><p>对于三种情况，</p>
+<ul>
+<li><p>$u$ 的父亲为根节点，这样进行一遍单旋即可，即把$u$转上去，$Rotate(u)$ </p>
+</li>
+<li><p>$u$ 的父亲不是根节点，$u$ 、父亲和祖父三点共线，此时需要先把父亲转上去，再把 $u$ 转上去.</p>
+<p><img src="/image/splay1.png" alt="Graph(1)">我们考虑$F$ 为$u$的父节点，$R$为$F$的父节点，$a、b、c、d$ 代表各个子树。两种不同的旋转过后，对于节点$u,F,R$ 对总深度的影响并不大，关键在于子树$a、b、c、d$。</p>
+<p>$a$ 在两种旋转后相同，$c$ 深度相同，$d$ 在第一种转法里面深度+1，在第二种转法里面深度+2，$b$ 在第一种转法里面深度不变，在第二种转法里深度-1，相比较下来第二种转法更好，更利于打散树，否则第一种转法可能会退化成一条链</p>
+</li>
+<li><p>$u$ 的父亲不是根节点，$u$ 、父亲、祖父三点不共线，此时只需要$u$ 向上转两次就好</p>
+</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">Splay</span><span class="params">(<span class="keyword">int</span> p,<span class="keyword">int</span> goal)</span></span>&#123;</div><div class="line">    top=<span class="number">0</span>;</div><div class="line">    <span class="keyword">while</span>(p!=goal)stk[++top]=p,p=fa[p];</div><div class="line">    <span class="keyword">while</span>(top)Down(stk[top--]);</div><div class="line">    p=stk[<span class="number">1</span>];</div><div class="line"></div><div class="line">    <span class="keyword">while</span>(fa[p]!=goal)&#123;</div><div class="line">        <span class="keyword">int</span> F=fa[p];</div><div class="line">        <span class="keyword">if</span>(fa[F]!=goal)&#123;</div><div class="line">            <span class="keyword">if</span>(son[F][<span class="number">1</span>]==p^son[fa[F]][<span class="number">1</span>]==F)Rotate(p);</div><div class="line">            <span class="keyword">else</span> Rotate(F);</div><div class="line">        &#125;</div><div class="line">        Rotate(p);</div><div class="line">    &#125;<span class="comment">//代码固定</span></div><div class="line">    Up(p);<span class="comment">//Rotate时有更新各个father,这里容易忘</span></div><div class="line">    <span class="keyword">if</span>(!goal)rt=p;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="Rotate"><a href="#Rotate" class="headerlink" title="Rotate"></a>Rotate</h2><p>关键在于明确左儿子还是右儿子的问题，可以借助图来推导.</p>
+<p><img src="/image/splay2.png" alt="Graph-rotate"></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">Rotate</span><span class="params">(<span class="keyword">int</span> p)</span></span>&#123;</div><div class="line">    <span class="keyword">int</span> F=fa[p];</div><div class="line">    <span class="keyword">int</span> d=son[F][<span class="number">1</span>]==p;</div><div class="line">    son[F][d]=son[p][!d];</div><div class="line">    <span class="keyword">if</span>(son[p][!d])fa[son[p][!d]]=F;</div><div class="line">    fa[p]=fa[F];</div><div class="line">    son[fa[p]][son[fa[p]][<span class="number">1</span>]==F]=p;</div><div class="line">    son[p][!d]=F;</div><div class="line">    fa[F]=p;</div><div class="line">    <span class="comment">//上面代码固定</span></div><div class="line">    Up(F);<span class="comment">//这里容易忘</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="Del"><a href="#Del" class="headerlink" title="Del"></a>Del</h2><p>先把节点$u$转到根上来，然后删除$u$之后只需要合并两子树即可，考虑$u$的儿子个数，没儿子直接删(更新$root$)，有一个儿子的话把儿子当做根，如果有两个儿子，在左子树里找到最大的数(&lt;=val[u])，然后把这个节点转到左子树的根上，作为总根，再把$u$的右儿子接到总根上即可.</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">del</span><span class="params">(<span class="keyword">int</span> p)</span></span>&#123;</div><div class="line">    splay(p,<span class="number">0</span>);</div><div class="line">    <span class="keyword">if</span>(son[p][<span class="number">0</span>]&amp;&amp;son[p][<span class="number">1</span>])&#123;</div><div class="line">        rt=son[p][<span class="number">0</span>];</div><div class="line">        fa[rt]=<span class="number">0</span>;</div><div class="line">        splay(Pre(son[p][<span class="number">0</span>],val[p]),<span class="number">0</span>);</div><div class="line">        fa[son[p][<span class="number">1</span>]]=rt;</div><div class="line">        son[rt][<span class="number">1</span>]=son[p][<span class="number">1</span>];</div><div class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span>(son[p][<span class="number">0</span>])&#123;</div><div class="line">        rt=son[p][<span class="number">0</span>];</div><div class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span>(son[p][<span class="number">1</span>])&#123;</div><div class="line">        rt=son[p][<span class="number">1</span>];</div><div class="line">    &#125;<span class="keyword">else</span> rt=<span class="number">0</span>;</div><div class="line">    fa[rt]=<span class="number">0</span>;</div><div class="line">    son[<span class="number">0</span>][<span class="number">1</span>]=rt;</div><div class="line">    <span class="comment">//</span></div><div class="line">    fa[p]=son[p][<span class="number">0</span>]=son[p][<span class="number">1</span>]=<span class="number">0</span>;</div><div class="line">    --sz;</div><div class="line">    <span class="keyword">if</span>(!sz)rt=<span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>还有一些必要的函数:</p>
+<ul>
+<li><p>$Newnode()$</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">Newnode</span><span class="params">(<span class="keyword">int</span> &amp;u,<span class="keyword">int</span> f,ll x)</span></span>&#123;</div><div class="line">    u=++tot;</div><div class="line">    fa[u]=f;</div><div class="line">    mi[u]=sum[u]=val[u]=x;</div><div class="line">    son[u][<span class="number">0</span>]=son[u][<span class="number">1</span>]=<span class="number">0</span>;</div><div class="line">    sz[u]=<span class="number">1</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>​</p>
+</li>
+<li><p>$Insert()$</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">bool</span> <span class="title">Insert</span><span class="params">(<span class="keyword">int</span> x)</span></span>&#123;</div><div class="line">    <span class="keyword">int</span> p=rt;</div><div class="line">    <span class="keyword">for</span>(;;p=son[p][x&gt;val[p]])&#123;</div><div class="line">        <span class="keyword">if</span>(x==val[p])&#123;</div><div class="line">            splay(p);<span class="comment">//Question Why?</span></div><div class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span>(!son[p][x&gt;val[p]])<span class="keyword">break</span>;</div><div class="line">    &#125;</div><div class="line">    Newnode(p,x);</div><div class="line">    splay(tot);</div><div class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>​</p>
+</li>
+<li><p>$Pre()$</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">Pre</span><span class="params">(<span class="keyword">int</span> p,<span class="keyword">int</span> x)</span></span>&#123;<span class="comment">//&lt;=x</span></div><div class="line">    <span class="keyword">int</span> ans=<span class="number">-1</span>;</div><div class="line">    <span class="keyword">while</span>(<span class="number">1</span>)&#123;</div><div class="line">      	Down(p);</div><div class="line">        <span class="keyword">if</span>(val[p]&lt;=x)&#123;</div><div class="line">            <span class="keyword">if</span>(ans==<span class="number">-1</span>||val[ans]&lt;val[p])ans=p;</div><div class="line">            <span class="keyword">if</span>(son[p][<span class="number">1</span>])p=son[p][<span class="number">1</span>];</div><div class="line">            <span class="keyword">else</span> <span class="keyword">break</span>;</div><div class="line">        &#125;<span class="keyword">else</span>&#123;</div><div class="line">            <span class="keyword">if</span>(son[p][<span class="number">0</span>])p=son[p][<span class="number">0</span>];</div><div class="line">            <span class="keyword">else</span> <span class="keyword">break</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> ans;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>​</p>
+</li>
+<li><p>$Next()​$</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">Suf</span><span class="params">(<span class="keyword">int</span> p,<span class="keyword">int</span> x)</span></span>&#123;</div><div class="line">    <span class="keyword">int</span> ans=<span class="number">-1</span>;</div><div class="line">    <span class="keyword">while</span>(<span class="number">1</span>)&#123;</div><div class="line">      	Down(p);</div><div class="line">        <span class="keyword">if</span>(val[p]&gt;=x)&#123;</div><div class="line">            <span class="keyword">if</span>(ans==<span class="number">-1</span>||val[ans]&gt;val[p])ans=p;</div><div class="line">            <span class="keyword">if</span>(son[p][<span class="number">0</span>])p=son[p][<span class="number">0</span>];</div><div class="line">            <span class="keyword">else</span> <span class="keyword">break</span>;</div><div class="line">        &#125;<span class="keyword">else</span>&#123;</div><div class="line">            <span class="keyword">if</span>(son[p][<span class="number">1</span>])p=son[p][<span class="number">1</span>];</div><div class="line">            <span class="keyword">else</span> <span class="keyword">break</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> ans;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>$RotateTo()$</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">RotateTo</span><span class="params">(<span class="keyword">int</span> k,<span class="keyword">int</span> goal)</span></span>&#123;<span class="comment">//K小的节点拉到goal下面</span></div><div class="line">  <span class="comment">/*</span></div><div class="line">  由于各种可能的情况(如初始节点0，n+1、或区间翻转等)无法直接用下标访问节点，换句话说，节点的内存块发生变动，这时唯一能做的事情就是sz，对其二分即可找到第K大的节点.</div><div class="line">  */</div><div class="line">    <span class="keyword">int</span> p=rt;Down(p);</div><div class="line">    <span class="keyword">while</span>(sz[son[p][<span class="number">0</span>]]!=k)&#123;</div><div class="line">        <span class="keyword">if</span>(sz[son[p][<span class="number">0</span>]]&gt;k)p=son[p][<span class="number">0</span>];</div><div class="line">        <span class="keyword">else</span>&#123;</div><div class="line">            k-=sz[son[p][<span class="number">0</span>]]+<span class="number">1</span>;</div><div class="line">            p=son[p][<span class="number">1</span>];</div><div class="line">        &#125;</div><div class="line">        Down(p);</div><div class="line">    &#125;</div><div class="line">    Splay(p,goal);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>​</p>
+</li>
+</ul>
+<h2 id="附：基本原理"><a href="#附：基本原理" class="headerlink" title="附：基本原理"></a>附：基本原理</h2><p>摘自<a href="http://dongxicheng.org/structure/splay-tree/" target="_blank" rel="external">Dong的博客</a></p>
+<blockquote>
+<p>伸展树的出发点是这样的：考虑到局部性原理（刚被访问的内容下次可能仍会被访问，查找次数多的内容可能下一次会被访问），为了使整个查找时间更小，被查频率高的那些节点应当经常处于靠近树根的位置。这样，很容易得想到以下这个方案：每次查找节点之后对树进行重构，把被查找的节点搬移到树根，这种自调整形式的二叉查找树就是伸展树。每次对伸展树进行操作后，它均会通过旋转的方法把被访问节点旋转到树根的位置。</p>
+</blockquote>
+<p><strong>用Splay解决问题的时候一定要注意删除节点时对sz的影响</strong></p>
+<p><strong>Splay处理问题时注意用的是权值平衡树还是下标平衡树，若是权值注意是否可能为负数</strong></p>
+<p><strong>有一些题目如poj3648，维护序列,可能会访问到0，n+1，这时我们可以在开始的时候就见两个节点进去</strong><img src="../image/splay3.png" alt="splay3"></p>
+<p><strong>例如这样，根据大小关系，我们可以确保初始的两个点分别表示0，n+1，同时利于我们对其利用sz二分查找到点(RotateTo)</strong></p>
+<p><strong>模板很重要，一定要照着模板，有些地方如$Rotate()和Splay()$最后的Up部分</strong></p>
+<p><strong>在把p $Splay$ 到根时注意p本身也要先down一遍,一旦有操作涉及到p的儿子(e.g.Rotate()),一定要先Down()一遍</strong></p>
+<p>$By SongToy$</p>
+
+
+                
+            </div>
+
+            <!-- Comments -->
+            
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    
+
+
+                </div>
+            
+        </div>
+    </div>
+</article>
+
+    <!-- Footer -->
+    <hr />
+
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+
+                    
+
+                    
+                        <li>
+                            <a href="https://github.com/songtoy/songtoy.github.io/" target="_blank">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                    
+
+                    
+
+                    
+
+                    
+                </ul>
+                <p class="copyright text-muted">&copy; 2018 Songtoy<br></p>
+                <p class="copyright text-muted">Original Theme <a target="_blank" href="http://startbootstrap.com/template-overviews/clean-blog/">Clean Blog</a> from <a href="http://startbootstrap.com/" target="_blank">Start Bootstrap</a></p>
+                <p class="copyright text-muted">Adapted for <a target="_blank" href="https://hexo.io/">Hexo</a> by <a href="http://www.codeblocq.com/" target="_blank">Jonathan Klughertz</a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+    <!-- After footer scripts -->
+    
+<!-- jQuery -->
+<script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+
+<!-- Bootstrap -->
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+<!-- Gallery -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
+
+<!-- Disqus Comments -->
+
+
+
+</body>
+
+</html>

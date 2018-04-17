@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<!-- Head tag -->
+<head>
+	<!--Mathjax-->
+	<script type="text/x-mathjax-config">
+	MathJax.Hub.Config({
+	    tex2jax: {
+	        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+	        processEscapes: true,
+	        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+	    }
+	});	
+	MathJax.Hub.Queue(function() {
+	    var all = MathJax.Hub.getAllJax(), i;
+	    for(i=0; i < all.length; i += 1) {
+	        all[i].SourceElement().parentNode.className += ' has-jax';                 
+	    }       
+	});
+	</script>
+	<script type="text/javascript" async
+		src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+	</script>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!--Description-->
+    
+        <meta name="description" content="Solution
+
+令 $dis[u]$ 表示u到根节点的路径的”长度”并且满足 $dis[u]=edge(u,fa)-dis[fa]$ .
+考虑可行路径u,v，他们的 $LCA$ 为 $lca$ ，则
+
+如图，路径左侧表示的是$u$到$Root$路径上每一条边的长度的加减情况，可以得到，由于$(d">
+    
+
+    <!--Author-->
+    
+        <meta name="author" content="Songtoy">
+    
+
+    <!--Open Graph Title-->
+    
+        <meta property="og:title" content="旅行"/>
+    
+
+    <!--Open Graph Description-->
+    
+
+    <!--Open Graph Site Name-->
+    <meta property="og:site_name" content="Song &amp; Toy"/>
+
+    <!--Type page-->
+    
+        <meta property="og:type" content="article" />
+    
+
+    <!--Page Cover-->
+    
+
+        <meta name="twitter:card" content="summary" />
+    
+
+    <!-- Title -->
+    
+    <title>旅行 - Song &amp; Toy</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/style.css">
+
+    <!-- Custom Fonts -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Gallery -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.css" type="text/css" rel="stylesheet" />
+
+    <!-- Google Analytics -->
+    
+
+
+    <!-- favicon -->
+    
+	
+</head>
+
+
+<body>
+
+    <!-- Menu -->
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">HOME</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                
+                    <li>
+                        <a href="/">
+                            
+                                Home
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/archives">
+                            
+                                Archives
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/option/author">
+                            
+                                Person
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/tags">
+                            
+                                Tags
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="https://github.com/songtoy/songtoy.github.io/">
+                            
+                                <i class="fa fa-github fa-stack-2x"></i>
+                            
+                        </a>
+                    </li>
+                
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+    <!-- Main Content -->
+    <!-- Page Header -->
+<!-- Set your background image for this header in your post front-matter: cover -->
+
+<header class="intro-header" style="background-image: url('http://www.codeblocq.com/assets/projects/hexo-theme-clean-blog/img/home-bg.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <h1>旅行</h1>
+                    
+                    <span class="meta">
+                        <!-- Date and Author -->
+                        
+                            Posted by Songtoy on
+                        
+                        
+                            2017-09-04
+                        
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Tags and categories -->
+           
+                <div class="col-lg-4 col-lg-offset-2 col-md-5 col-md-offset-1 post-tags">
+                    
+                        
+
+
+<a href="/tags/Graph-Theory/">#Graph Theory</a> <a href="/tags/Two-pointers/">#Two pointers</a> <a href="/tags/Binary/">#Binary</a>
+
+
+                    
+                </div>
+                <div class="col-lg-4 col-md-5 post-categories">
+                    
+                </div>
+            
+
+            <!-- Gallery -->
+            
+
+            <!-- Post Main Content -->
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <h2>Solution</h2>
+
+<p>令 $dis[u]$ 表示u到根节点的路径的”长度”并且满足 $dis[u]=edge(u,fa)-dis[fa]$ .</p>
+<p>考虑可行路径u,v，他们的 $LCA$ 为 $lca$ ，则</p>
+<p><img src="/image/旅行20170311.png" alt="Graph"></p>
+<p>如图，路径左侧表示的是$u$到$Root$路径上每一条边的长度的加减情况，可以得到，由于$(dep[u]-dep[v])\%2==0$ ，$Length(u,v) = dis[u]+dis[v]$ ，因此，我们只需要把所有的点按 $dep[]$ 的奇偶性分成两类，得到两个$dis$的数组，由于要求的是第$K$小的路径，我们二分答案的路径长度，然后求出有多少条路径”长度”小于等于 $limit$ (即 $mid$ )$ ，这一步可以用归并两个有序数组解决。</p>
+<p>对奇数一组每个i，我们每次维护最后一个满足 $dis[i]+dis[j]&lt;=lmt$ 的 $j$ ，由于两个数组均为有序，$i$ 向右推进的过程中，$j$ 一定会逐渐变小，因此问题即可解决。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">static</span> <span class="keyword">const</span> <span class="keyword">int</span> M = <span class="number">100005</span>;</div><div class="line">ll dis[M];</div><div class="line">ll Div[<span class="number">2</span>][M];</div><div class="line"><span class="keyword">int</span> dep[M],st[M],ed[M],obj[M];</div><div class="line">ll len[M*<span class="number">10</span>];</div><div class="line"><span class="keyword">struct</span> node&#123;</div><div class="line">    <span class="keyword">int</span> to,cost;</div><div class="line">    node *nxt;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">push_back</span><span class="params">(<span class="keyword">int</span> v,<span class="keyword">int</span> c)</span></span>&#123;</div><div class="line">        node *p=<span class="keyword">new</span> node;</div><div class="line">        p-&gt;to=v;</div><div class="line">        p-&gt;cost=c;</div><div class="line">        p-&gt;nxt=nxt;</div><div class="line">        nxt=p;</div><div class="line">    &#125;</div><div class="line">&#125;es[M];</div><div class="line"><span class="keyword">struct</span> Big&#123;</div><div class="line">    <span class="keyword">int</span> cnt[<span class="number">2</span>];</div><div class="line">    Big()&#123;</div><div class="line">        <span class="built_in">memset</span>(cnt,<span class="number">0</span>,<span class="keyword">sizeof</span>(cnt));</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">dfs</span><span class="params">(<span class="keyword">int</span> u,<span class="keyword">int</span> fa)</span></span>&#123;</div><div class="line">        <span class="keyword">for</span>(node *i=es[u].nxt;i;i=i-&gt;nxt)&#123;</div><div class="line">            <span class="keyword">int</span> v=i-&gt;to;</div><div class="line">            <span class="keyword">if</span>(v==fa)<span class="keyword">continue</span>;</div><div class="line">            dep[v]=(dep[u]+<span class="number">1</span>)&amp;<span class="number">1</span>;</div><div class="line">            dis[v]=(ll)(i-&gt;cost)-dis[u];</div><div class="line">            dfs(v,u);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">check</span><span class="params">(ll lmt,<span class="keyword">int</span> K)</span></span>&#123;<span class="comment">//cnt(&lt;=lmt) &gt;=K)</span></div><div class="line">        ll ans=<span class="number">0</span>;</div><div class="line">        <span class="keyword">int</span> j=cnt[<span class="number">0</span>];</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=cnt[<span class="number">1</span>];++i)&#123;<span class="comment">//dis[x]+dis[y]&lt;=lmt</span></div><div class="line">            <span class="keyword">while</span>(j&gt;=<span class="number">1</span>&amp;&amp;Div[<span class="number">0</span>][j]+Div[<span class="number">1</span>][i]&gt;lmt)--j;<span class="comment">//last element j which satisfies Div[0][j]+Div[1][i]&lt;=lmt</span></div><div class="line">            ans+=j;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> ans&gt;=K;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">solve</span><span class="params">(<span class="keyword">int</span> n,<span class="keyword">int</span> K)</span></span>&#123;</div><div class="line">        dfs(<span class="number">1</span>,<span class="number">1</span>);</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;++i)&#123;</div><div class="line">            Div[dep[i]][++cnt[dep[i]]]=dis[i];</div><div class="line">        &#125;</div><div class="line">        sort(Div[<span class="number">0</span>]+<span class="number">1</span>,Div[<span class="number">0</span>]+cnt[<span class="number">0</span>]+<span class="number">1</span>);</div><div class="line">        sort(Div[<span class="number">1</span>]+<span class="number">1</span>,Div[<span class="number">1</span>]+cnt[<span class="number">1</span>]+<span class="number">1</span>);</div><div class="line">        ll L=<span class="number">-1</span>ll&lt;&lt;<span class="number">50</span>,R=<span class="number">1l</span>l&lt;&lt;<span class="number">50</span>,ans=<span class="number">1l</span>l&lt;&lt;<span class="number">50</span>;</div><div class="line">        <span class="keyword">while</span>(L&lt;=R)&#123;</div><div class="line">            ll mid=L+R&gt;&gt;<span class="number">1</span>;</div><div class="line">            <span class="keyword">if</span>(check(mid,K))ans=mid,R=mid<span class="number">-1</span>;</div><div class="line">            <span class="keyword">else</span> L=mid+<span class="number">1</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span>(ans&gt;=<span class="number">1l</span>l&lt;&lt;<span class="number">50</span>)<span class="built_in">puts</span>(<span class="string">"Stupid Mike"</span>);</div><div class="line">        <span class="keyword">else</span> <span class="built_in">cout</span>&lt;&lt;ans&lt;&lt;<span class="built_in">endl</span>;</div><div class="line">    &#125;</div><div class="line">&#125;Grand;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</div><div class="line">    <span class="keyword">int</span> n,K;</div><div class="line">    rd(n),rd(K);</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>,u,v,c;i&lt;n;++i)&#123;</div><div class="line">        rd(u),rd(v),rd(c);</div><div class="line">        es[u].push_back(v,c);</div><div class="line">        es[v].push_back(u,c);</div><div class="line">    &#125;</div><div class="line">    Grand.solve(n,K);</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3>个人总结</h3>
+
+<p>处理这一题的时候看到小数据为1000，直接暴力枚举可以达到$O(n^2)$，用dfs序即可，每次枚举节点$u$一个儿子的子树内的点与u子树中除该儿子外的子孙节点，表面上是$O(n^3)$ ，但是实际上是枚举点对，只有$O(n^2)$ 。</p>
+<p>同时发现路径$(u,v)$的$Length$其实就等于$dis[u]+dis[v]$ ，那么我们就不需要枚举子树了，只需要求出所有点的$dis$ ，根据奇偶性放到两个数组里，枚举任意点对即可。</p>
+<p>由于最后要求的是第$K$短的路径，一个比较可行的想法是二分，在边界上处理完了之后卡在了$check()$上，并没有想到可以归并求解，当时的目的是找到所有$dis[i]+dis[j]&gt;=lmt$的点对$(i,j)$ 个数ans，并判断$ans&gt;=K$是否成立，觉得应该可以用map什么的解决，但是时间已经不够了，思路越加混乱。</p>
+<p>应该注意这类问题，往往和两个元素有关，可能是相加、相乘，这个时候可以考虑一下归并，一方面可以像这样二分求解，另一方面可以借用优先队列，在$K$有限的情况下存下所有的路径，每次找到最小的元素，具体如下：</p>
+<p>刚开始存下所有的<br>$$a_1+b_1, a_1+b_2, .. ,a_1+b_n$$<br>然后每次取出最小的元素，再放进一个元素越靠近这个元素越好，不妨为$min(a_{i+1}+b_{j} , a_i+B_{j+1})$ ，这样能确保复杂度。</p>
+<p>$By SongToy$</p>
+
+
+                
+            </div>
+
+            <!-- Comments -->
+            
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    
+
+
+                </div>
+            
+        </div>
+    </div>
+</article>
+
+    <!-- Footer -->
+    <hr />
+
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+
+                    
+
+                    
+                        <li>
+                            <a href="https://github.com/songtoy/songtoy.github.io/" target="_blank">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                    
+
+                    
+
+                    
+
+                    
+                </ul>
+                <p class="copyright text-muted">&copy; 2018 Songtoy<br></p>
+                <p class="copyright text-muted">Original Theme <a target="_blank" href="http://startbootstrap.com/template-overviews/clean-blog/">Clean Blog</a> from <a href="http://startbootstrap.com/" target="_blank">Start Bootstrap</a></p>
+                <p class="copyright text-muted">Adapted for <a target="_blank" href="https://hexo.io/">Hexo</a> by <a href="http://www.codeblocq.com/" target="_blank">Jonathan Klughertz</a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+    <!-- After footer scripts -->
+    
+<!-- jQuery -->
+<script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+
+<!-- Bootstrap -->
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+<!-- Gallery -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
+
+<!-- Disqus Comments -->
+
+
+
+</body>
+
+</html>
